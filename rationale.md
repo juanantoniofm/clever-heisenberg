@@ -2,6 +2,9 @@
 
 An explanation of how I thought of solving the challenge.
 
+For the references of the documentation used, check the
+[References](./references.md) page
+
 
 
 # Components Diagram and Breakdown
@@ -52,11 +55,14 @@ itself, and ensure the cache is up to date.
 I took a look at the most common load balancing solutions, and the nginx-ingress
 seems to be the most accepted one. 
 
-## Metrics and StackDriver
+## Monitoring and Metrics using StackDriver
 
 To push the metrics, I have chosen running a sidecar container capable of looking
 at the nginx statistics, crunch them, and send them to SD where alerts and
 actionables can be created. 
+
+I wanted to use [**StackDriver Kubernetes Monitoring**](https://cloud.google.com/monitoring/kubernetes-engine/) 
+currently in Beta, instead of the legacy stackdriver. 
 
 ## Website
 
@@ -91,8 +97,12 @@ management capabilities.
 The challenge was not fully solved/completed, so here it is a quick summary
 of the activities that were completed and which ones are still open.
 
+### Done
+
 + Kubernetes defition of services, and deployable in GKE
 + Deploying nginx-ingress and pushing metrics to stackdriver
+
+### Pending
 
 - Missing the right metrics to measure the traffic sent to a give pod
 - missing the CDN link
