@@ -1,0 +1,11 @@
+
+# run a shell in a running pod
+
+    kubectl exec -ti  load-generator-779c5f458c-8sp84 -- /bin/sh
+
+
+# Loop to curl teh website all the time
+
+    while true; do wget http://23.251.133.29/ 2>/dev/null ; grep "ate" index.html| cut -c 45-65 ; rm index.html; sleep 1; done
+
+

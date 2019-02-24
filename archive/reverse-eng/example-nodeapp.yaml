@@ -1,0 +1,81 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu request for container
+      app'
+  creationTimestamp: 2019-02-17T19:45:22Z
+  generateName: example-nodejs-app-75d5fb66fb-
+  labels:
+    app: example-nodejs-app
+    pod-template-hash: "3181962296"
+  name: example-nodejs-app-75d5fb66fb-brvbq
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: example-nodejs-app-75d5fb66fb
+    uid: 8ffee31e-32ec-11e9-b429-42010a840167
+  resourceVersion: "730659"
+  selfLink: /api/v1/namespaces/default/pods/example-nodejs-app-75d5fb66fb-brvbq
+  uid: 90069151-32ec-11e9-b429-42010a840167
+spec:
+  containers:
+  - image: quay.io/jessgreb/example-nodejs:latest
+    imagePullPolicy: Always
+    livenessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /
+        port: 8080
+        scheme: HTTP
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    name: app
+    ports:
+    - containerPort: 8080
+      protocol: TCP
+    readinessProbe:
+      failureThreshold: 3
+      httpGet:
+        path: /
+        port: 8080
+        scheme: HTTP
+      periodSeconds: 10
+      successThreshold: 1
+      timeoutSeconds: 1
+    resources:
+      requests:
+        cpu: 100m
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-qdc8c
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  nodeName: gke-standard-cluster-1-default-pool-8fa049d3-0lh4
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: default-token-qdc8c
+    secret:
+      defaultMode: 420
+      secretName: default-token-qdc8c

@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: clever-heisenberg
+  name: website
+  labels:
+    app: website
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: website
+  template:
+    metadata:
+      labels:
+        app: website
+    spec:
+      containers:
+        - image: nginxdemos/hello:0.2
+          name: website
+          env:
+          - name: WEBSITE_DB_HOST
+            value: mysql:3306
+          - name: WEBSITE_DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: mysql
+                key: password
+          ports:
+            - containerPort: 80
+              name: website
+          volumeMounts:
+            - name: website-persistent-storage
+              mountPath: /var/www/html
+      volumes:
+        - name: website-persistent-storage
+          persistentVolumeClaim:
+            claimName: website-volumeclaim

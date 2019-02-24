@@ -1,0 +1,27 @@
+
+## I dont really know what to do here.... where do i get th ecacount from
+#    helm init --service-account
+
+##  Then create the thing with kubectl
+    kubectl -n kube-system create sa tiller
+    kubectl create clusterrolebinding tiller --clusterrole cluster-admin --serviceaccount=kube-system:tiller
+
+# then the helm config 
+    helm init --upgrade --service-account tiller
+
+## And with this we are ready to use helm.
+
+
+## Installing the ingress thing
+
+    helm upgrade --install nginx stable/nginx-ingress --values charts/nginx-ingress-ctlr-values/values.yaml
+
+
+## then we need to add this ingress to our app, to collect metrics and shit?
+See the example on this app
+
+    helm install charts/example-nodejs-app/ --name example-nodejs-app
+
+
+
+

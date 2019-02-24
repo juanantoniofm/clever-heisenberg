@@ -1,0 +1,77 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    kubernetes.io/limit-ranger: 'LimitRanger plugin set: cpu request for container
+      website'
+  creationTimestamp: 2019-02-17T10:13:26Z
+  generateName: website-98d87bb56-
+  labels:
+    app: website
+    pod-template-hash: "548436612"
+  name: website-98d87bb56-fpq8t
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: website-98d87bb56
+    uid: aa86d2fc-329c-11e9-b429-42010a840167
+  resourceVersion: "646541"
+  selfLink: /api/v1/namespaces/default/pods/website-98d87bb56-fpq8t
+  uid: aa8ad4cf-329c-11e9-b429-42010a840167
+spec:
+  containers:
+  - env:
+    - name: WEBSITE_DB_HOST
+      value: mysql:3306
+    - name: WEBSITE_DB_PASSWORD
+      valueFrom:
+        secretKeyRef:
+          key: password
+          name: mysql
+    image: nginxdemos/hello:0.2
+    imagePullPolicy: IfNotPresent
+    name: website
+    ports:
+    - containerPort: 80
+      name: website
+      protocol: TCP
+    resources:
+      requests:
+        cpu: 100m
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/www/html
+      name: website-persistent-storage
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: default-token-qdc8c
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  nodeName: gke-standard-cluster-1-default-pool-8fa049d3-0lh4
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - name: website-persistent-storage
+    persistentVolumeClaim:
+      claimName: website-volumeclaim
+  - name: default-token-qdc8c
+    secret:
+      defaultMode: 420
+      secretName: default-token-qdc8c

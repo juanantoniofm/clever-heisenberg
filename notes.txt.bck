@@ -1,0 +1,42 @@
+
+
+## how to create random names
+
+curl http://ngaas.api.jacobclark.xyz/ | jq -r ".name"
+
+
+
+## How to create the k8s cluster on gke
+
+This is taken from the auto-generated cli on gke console
+
+
+        gcloud beta container --project "greatkhantutorial001" clusters create "greatkhancluster001" --zone "europe-west1-b" --username "admin" --cluster-version "1.11.6-gke.2" --machine-type "g1-small" --image-type "COS" --disk-type "pd-standard" --disk-size "30" --scopes "https://www.googleapis.com/auth/devstorage.read_only","https://www.googleapis.com/auth/logging.write","https://www.googleapis.com/auth/monitoring","https://www.googleapis.com/auth/servicecontrol","https://www.googleapis.com/auth/service.management.readonly","https://www.googleapis.com/auth/trace.append" --num-nodes "2" --no-enable-cloud-logging --no-enable-cloud-monitoring --no-enable-ip-alias --network "projects/greatkhantutorial001/global/networks/default" --subnetwork "projects/greatkhantutorial001/regions/europe-west1/subnetworks/default" --addons HorizontalPodAutoscaling,HttpLoadBalancing --enable-autoupgrade --enable-autorepair
+
+
+
+
+
+# Steps after the cluster
+
+1. Once the cluster is created, configue the project in gclod, to the ID (not name)
+
+        gcloud config set project greatkhantutorial001
+
+2. then configure creds and that stuff
+
+        gcloud container clusters get-credentials greatkhancluster001 --zone europe-west1-b
+
+3. then deploy the deployments with kubectl, then the services.
+
+and magic.
+
+
+
+
+
+## pE NDI NG  - things to do before delivery
+
+- ensure that the paths are correct. the makefile has some errors on the paths to k8s stuff
+- clean up the helm stuff. the service account and the pods with sidecar
+- 
